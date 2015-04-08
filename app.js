@@ -15,7 +15,8 @@ var Rows = React.createClass({
                 <small> - Column Name </small>
             :&nbsp;
                 <input type="text" value={columnPair[0]} onChange={this.props.handleInputChange.bind(null, lineNumber + ',column')} />
-            </label>&nbsp;/&nbsp;
+            </label>
+        &nbsp;/&nbsp;
             <label>
             カラムタイプ
                 <small> - Column Type </small>
@@ -25,15 +26,15 @@ var Rows = React.createClass({
                     (this.props.columnTypeOptions || []).map(function (value) {
                         return (
                             <option value={value}>{value}</option>
-                        );
-                    })
-                }
+            );
+            })
+            }
             </select>
         </label>&nbsp;
-            <a href="#" onClick={this.props.handleDelete.bind(this, column)}>
-                <button className="btn btn-default btn-sm">delete</button>
-            </a>
-        </li>;
+        <a href="#" onClick={this.props.handleDelete.bind(this, column)}>
+            <button className="btn btn-default btn-sm">delete</button>
+        </a>
+        < /li>;
     },
 
     render: function () {
@@ -41,15 +42,21 @@ var Rows = React.createClass({
     }
 });
 
+/**
+ * Generator class
+ */
 var Generator = React.createClass({
     getInitialState: function () {
-        return {rows: ["NAME,string"]
-            , text: ''
-            ,table: "M_TABLE"
-            ,column: "NAME"
-            ,columnType: "string"
+        return {rows: ["NAME,string"], text: '', table: "M_TABLE", column: "NAME", columnType: "string"
         };
     },
+
+    /**
+     * Get select option values
+     *
+     * @this {Generator}
+     * @return {columnTypeOptions: Array}
+     */
     getDefaultProps: function () {
         return {
             columnTypeOptions: ["string"
@@ -67,26 +74,37 @@ var Generator = React.createClass({
                 , "primary_key"]
         };
     },
-    handleDelete: function (itemToDelete, e) {
-        console.dir(this.state.rows);
 
+    /**
+     * Get button event
+     *
+     * @this {Generator}
+     * @return void
+     * @param itemToDelete {object}
+     */
+    handleDelete: function (itemToDelete) {
         var newItems = _.reject(this.state.rows, function (item) {
             return item == itemToDelete
         });
-        console.dir(newItems);
-
         this.setState({rows: newItems});
     },
 
-    handleSubmit: function (e) {
-        e.preventDefault();
-        var nextItems = this.state.rows.concat([this.state.column+","+this.state.columnType]);
+    /**
+     * Get submit event
+     *
+     * @this {Generator}
+     * @return void
+     * @param event {object}
+     */
+    handleSubmit: function (event) {
+        event.preventDefault();
+        var nextItems = this.state.rows.concat([this.state.column + "," + this.state.columnType]);
         this.setState({rows: nextItems});
         highlightBlock();
     },
 
     /**
-     * Rendering input forms and add button
+     * Get onChange event
      *
      * @this {Generator}
      * @return void
@@ -96,9 +114,9 @@ var Generator = React.createClass({
     handleInputChange: function (label, event) {
         var lineLabel = label.split(',');
         var row = this.state.rows[lineLabel[0]].split(',');
-        if(lineLabel[1] == "column"){
+        if (lineLabel[1] == "column") {
             row[0] = event.target.value;
-        }else{
+        } else {
             row[1] = event.target.value;
         }
         this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
@@ -117,17 +135,19 @@ var Generator = React.createClass({
         var rows = this.state.rows;
         return (
             <div>
-                <pre><code className="ruby">rails generate scaffold {table}&nbsp;
+                <pre>
+                    <code className="ruby">rails generate scaffold {table}&nbsp;
                 {this.handleInputChange.bind(null, 'rows')}
                     {
                         (rows || []).map(function (values) {
                             var pair = values.split(',');
                             return (
                                 pair[0] + ":" + pair[1] + " "
-                        );
-                    })
-                }
-                </code></pre>
+                                );
+                        })
+                    }
+                    </code>
+                </pre>
                 <p>
                     <label>
                     テーブル名
@@ -136,25 +156,34 @@ var Generator = React.createClass({
                         <input type="text" value={table} onChange={this.handleInputChange.bind(null, 'table')} />
                     </label>
                 </p>
-              <Rows rows={this.state.rows}
-              handleDelete={this.handleDelete}
-              columnTypeOptions={this.props.columnTypeOptions}
-              handleInputChange={this.handleInputChange}/>
+                <Rows rows={this.state.rows}
+                handleDelete={this.handleDelete}
+                columnTypeOptions={this.props.columnTypeOptions}
+                handleInputChange={this.handleInputChange}/>
                 <div className="row">
                     <div className="col-md-9"></div>
-                <form onSubmit={this.handleSubmit}>
-                    <button className="btn btn-primary btn-lg">{'Add #' + (this.state.rows.length + 1)}</button>
-                </form>
+                    <form onSubmit={this.handleSubmit}>
+                        <button className="btn btn-primary btn-lg">{'Add #' + (this.state.rows.length + 1)}</button>
+                    </form>
                 </div>
             </div>
             );
     }
 });
+
+/**
+ * Rendering
+ */
 React.render(<Generator />, document.getElementById('container'));
 
-function highlightBlock(){
+/**
+ * Delayed exec highlightBlock()
+ *
+ * @return void
+ */
+function highlightBlock() {
     var aCodes = document.getElementsByTagName('pre');
-    for (var i=0; i < aCodes.length; i++) {
+    for (var i = 0; i < aCodes.length; i++) {
         hljs.highlightBlock(aCodes[i]);
     }
 }
