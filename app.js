@@ -30,7 +30,7 @@ var Rows = React.createClass({
             })
             }
             </select>
-        </label> & nbsp;
+        </label> &nbsp;
         <a href="#" onClick={this.props.handleDelete.bind(this, column)}>
             <button className="btn btn-default btn-sm">delete</button>
         </a>
