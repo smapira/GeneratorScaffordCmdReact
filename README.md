@@ -1,6 +1,6 @@
 # Scaffold Command Line Generator
 
-This is a Scaffold Command Line Generator for [Ruby on Rails](https://github.com/rails/rails). Based on [ReactJs](http://facebook.github.io/react/)
+This is a Scaffold Command Line Generator for [Ruby on Rails](https://github.com/rails/rails). Based on [React](http://facebook.github.io/react/)
 
 ## Usage
 1. git clone git@github.com:K90j1/GeneratorScaffordCmdReact
