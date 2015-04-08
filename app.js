@@ -6,7 +6,16 @@
  * This file is licensed under the MIT License
  * http://opensource.org/licenses/MIT
  */
+
 var Rows = React.createClass({
+    /**
+     * Get select option values
+     *
+     * @this {Rows}
+     * @param column {string}
+     * @param lineNumber {int}
+     * @return {string}
+     */
     createItem: function (column, lineNumber) {
         var columnPair = column.split(',');
         return <li>
@@ -47,7 +56,7 @@ var Rows = React.createClass({
  */
 var Generator = React.createClass({
     getInitialState: function () {
-        return {rows: ["NAME,string"], text: '', table: "M_TABLE", column: "NAME", columnType: "string"
+        return {rows: ["NAME,string"], table: "M_TABLE", column: "NAME", columnType: "string"
         };
     },
 
@@ -173,6 +182,8 @@ var Generator = React.createClass({
 
 /**
  * Rendering
+ *
+ * @return void
  */
 React.render(<Generator />, document.getElementById('container'));
 
