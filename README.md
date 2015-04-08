@@ -19,6 +19,7 @@ example,
 - [Bootstrap](https://github.com/twbs/bootstrap) - HTML, CSS, and JavaScript framework.
 - [jQuery](https://github.com/jquery/jquery) - jQuery JavaScript Library.
 - [lodash](https://github.com/lodash/lodash) - JavaScript utility library.
+- [highlight.js](https://highlightjs.org/) - Syntax highlighting for the Web.
 - [johnthethird/react-starter-template](https://github.com/johnthethird/react-starter-template) - Thanks.
 - [React.jsについてのリソース、そして締め](http://qiita.com/koba04/items/9df76ac0744edd8f8e0e) - Thanks.
 

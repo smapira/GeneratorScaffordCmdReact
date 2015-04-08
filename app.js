@@ -1,5 +1,5 @@
-/** @jsx React.DOM */
 /**
+ * @jsx React.DOM
  * Scaffold Command Line Generator
  *
  * Copyright (c) 2015 routeflags.inc
@@ -9,7 +9,6 @@
 var Rows = React.createClass({
     createItem: function (column, lineNumber) {
         var columnPair = column.split(',');
-        console.log(columnPair[1]);
         return <li>
             <label>
             カラム名
@@ -68,7 +67,6 @@ var Generator = React.createClass({
                 , "primary_key"]
         };
     },
-    //todo
     handleDelete: function (itemToDelete, e) {
         console.dir(this.state.rows);
 
@@ -80,11 +78,11 @@ var Generator = React.createClass({
         this.setState({rows: newItems});
     },
 
-    //todo convert text to ?
     handleSubmit: function (e) {
         e.preventDefault();
         var nextItems = this.state.rows.concat([this.state.column+","+this.state.columnType]);
         this.setState({rows: nextItems});
+        highlightBlock();
     },
 
     /**
@@ -105,6 +103,7 @@ var Generator = React.createClass({
         }
         this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
         this.setState({rows: this.state.rows});
+        highlightBlock();
     },
 
     /**
@@ -118,7 +117,7 @@ var Generator = React.createClass({
         var rows = this.state.rows;
         return (
             <div>
-                <pre>rails generate scaffold {table}&nbsp;
+                <pre><code className="ruby">rails generate scaffold {table}&nbsp;
                 {this.handleInputChange.bind(null, 'rows')}
                     {
                         (rows || []).map(function (values) {
@@ -128,7 +127,7 @@ var Generator = React.createClass({
                         );
                     })
                 }
-                </pre>
+                </code></pre>
                 <p>
                     <label>
                     テーブル名
@@ -152,3 +151,10 @@ var Generator = React.createClass({
     }
 });
 React.render(<Generator />, document.getElementById('container'));
+
+function highlightBlock(){
+    var aCodes = document.getElementsByTagName('pre');
+    for (var i=0; i < aCodes.length; i++) {
+        hljs.highlightBlock(aCodes[i]);
+    }
+}
