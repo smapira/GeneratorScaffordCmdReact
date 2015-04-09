@@ -44,8 +44,14 @@ var Rows = React.createClass({
 
 var Generator = React.createClass({
     getInitialState: function () {
-        return {rows: ["NAME,string"], text: '', table: "M_TABLE", column: "NAME", columnType: "string"
+        return {rows: ["NAME,string"], table: "M_TABLE", column: "NAME", columnType: "string"
         };
+    },
+    propTypes: {
+        rows: React.PropTypes.array,
+        table: React.PropTypes.string.isRequired,
+        column: React.PropTypes.string.isRequired,
+        columnType: React.PropTypes.string.isRequired
     },
     getDefaultProps: function () {
         return {
@@ -64,7 +70,7 @@ var Generator = React.createClass({
                 , "primary_key"]
         };
     },
-    handleDelete: function (itemToDelete, e) {
+    handleDelete: function (itemToDelete, event) {
         console.dir(this.state.rows);
 
         var newItems = _.reject(this.state.rows, function (item) {
@@ -75,8 +81,8 @@ var Generator = React.createClass({
         this.setState({rows: newItems});
     },
 
-    handleSubmit: function (e) {
-        e.preventDefault();
+    handleSubmit: function (event) {
+        event.preventDefault();
         var nextItems = this.state.rows.concat([this.state.column + "," + this.state.columnType]);
         this.setState({rows: nextItems});
         highlightBlock();
