@@ -121,6 +121,9 @@ var Generator = React.createClass({
      * @param label {string}
      */
     handleInputChange: function (label, event) {
+        if(label == "table"){
+            this.setState({table: event.target.value});
+        }else{
         var lineLabel = label.split(',');
         var row = this.state.rows[lineLabel[0]].split(',');
         if (lineLabel[1] == "column") {
@@ -130,6 +133,7 @@ var Generator = React.createClass({
         }
         this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
         this.setState({rows: this.state.rows});
+        }
         highlightBlock();
     },
 
