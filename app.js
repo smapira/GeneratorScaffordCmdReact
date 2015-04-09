@@ -124,15 +124,15 @@ var Generator = React.createClass({
         if(label == "table"){
             this.setState({table: event.target.value});
         }else{
-        var lineLabel = label.split(',');
-        var row = this.state.rows[lineLabel[0]].split(',');
-        if (lineLabel[1] == "column") {
-            row[0] = event.target.value;
-        } else {
-            row[1] = event.target.value;
-        }
-        this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
-        this.setState({rows: this.state.rows});
+            var lineLabel = label.split(',');
+            var row = this.state.rows[lineLabel[0]].split(',');
+            if (lineLabel[1] == "column") {
+                row[0] = event.target.value;
+            } else {
+                row[1] = event.target.value;
+            }
+            this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
+            this.setState({rows: this.state.rows});
         }
         highlightBlock();
     },
