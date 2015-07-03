@@ -27,25 +27,35 @@ var Rows = React.createClass({
             </label>
         &nbsp;/&nbsp;
             <label>
-            カラムタイプ
-                <small> - Column Type </small>
-            :&nbsp;
+            カラムタイプ<small> - Column Type </small>:&nbsp;
                 <select value={columnPair[1]} onChange={this.props.handleInputChange.bind(null, lineNumber + ',columnType')}>
                 {
                     (this.props.columnTypeOptions || []).map(function (value) {
                         return (
                             <option value={value}>{value}</option>
-            );
-            })
-            }
-            </select>
-        </label>&nbsp;
-        <a href="#" onClick={this.props.handleDelete.bind(this, column)}>
+                        );
+                    })
+                }
+                </select></label>
+            &nbsp;
+        <label><small> Index </small>:&nbsp;
+                <select id="indexOptions" value={columnPair[2]} onChange={this.props.handleInputChange.bind(null, lineNumber + ',indexType')}>
+                    {
+                        (this.props.indexTypeOptions || []).map(function (value) {
+                            var data = ":" + value;
+                            if(value.length < 1)
+                                data = "";
+                            return (
+                                <option value={data}>{value}</option>
+                            );
+                        })
+                    }
+                </select></label>&nbsp;
+        <a href="#" onClick={this.props.handleDelete.bind(null, column)}>
             <button className="btn btn-default btn-sm">delete</button>
         </a>
-        < /li>;
+        </li>;
     },
-
     render: function () {
         return <ul>{this.props.rows.map(this.createItem)}</ul>;
     }
@@ -56,7 +66,7 @@ var Rows = React.createClass({
  */
 var Generator = React.createClass({
     getInitialState: function () {
-        return {rows: ["NAME,string"], table: "M_TABLE", column: "NAME", columnType: "string"
+        return {rows: ["NAME,string,"], table: "M_TABLE", column: "NAME", columnType: "string", indexType: ""
         };
     },
 
@@ -64,7 +74,7 @@ var Generator = React.createClass({
      * Get select option values
      *
      * @this {Generator}
-     * @return {columnTypeOptions: Array}
+     * @return {columnTypeOptions: Array, indexTypeOptions: Array, }
      */
     getDefaultProps: function () {
         return {
@@ -80,7 +90,10 @@ var Generator = React.createClass({
                 , "binary"
                 , "boolean"
                 , "references"
-                , "primary_key"]
+                , "primary_key"],
+            indexTypeOptions: [""
+                , "index"
+                , "uniq"]
         };
     },
 
@@ -107,7 +120,7 @@ var Generator = React.createClass({
      */
     handleSubmit: function (event) {
         event.preventDefault();
-        var nextItems = this.state.rows.concat([this.state.column + "," + this.state.columnType]);
+        var nextItems = this.state.rows.concat([this.state.column + "," + this.state.columnType + "," + this.state.indexType]);
         this.setState({rows: nextItems});
         highlightBlock();
     },
@@ -128,10 +141,12 @@ var Generator = React.createClass({
             var row = this.state.rows[lineLabel[0]].split(',');
             if (lineLabel[1] == "column") {
                 row[0] = event.target.value;
-            } else {
+            } else if(lineLabel[1] == "columnType") {
                 row[1] = event.target.value;
+            } else {
+                row[2] = event.target.value;
             }
-            this.state.rows[lineLabel[0]] = row[0] + "," + row[1];
+            this.state.rows[lineLabel[0]] = row[0] + "," + row[1] + "," + row[2];
             this.setState({rows: this.state.rows});
         }
         highlightBlock();
@@ -150,12 +165,12 @@ var Generator = React.createClass({
             <div>
                 <pre>
                     <code className="ruby">rails generate scaffold {table}&nbsp;
-                {this.handleInputChange.bind(null, 'rows')}
+                    {this.handleInputChange.bind(null, 'rows')}
                     {
                         (rows || []).map(function (values) {
                             var pair = values.split(',');
                             return (
-                                pair[0] + ":" + pair[1] + " "
+                                pair[0] + ":" + pair[1] + pair[2] + " "
                                 );
                         })
                     }
@@ -172,6 +187,7 @@ var Generator = React.createClass({
                 <Rows rows={this.state.rows}
                 handleDelete={this.handleDelete}
                 columnTypeOptions={this.props.columnTypeOptions}
+                indexTypeOptions={this.props.indexTypeOptions}
                 handleInputChange={this.handleInputChange}/>
                 <div className="row">
                     <div className="col-md-9"></div>
@@ -189,7 +205,9 @@ var Generator = React.createClass({
  *
  * @return void
  */
-React.render(<Generator />, document.getElementById('container'));
+React.render(
+    <Generator />
+    , document.getElementById('container'));
 
 /**
  * Delayed exec highlightBlock()
