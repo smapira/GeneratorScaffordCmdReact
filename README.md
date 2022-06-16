@@ -12,7 +12,7 @@ example,
 3. Go to http://localhost:8000/index.html
 
 ## Demo
-[Scaffold Command Line Generator](http://k90j1.github.io/GeneratorScaffordCmdReact)
+[Scaffold Command Line Generator](https://smapira.github.io/GeneratorScaffordCmdReact/)
 
 ## Links
 - [Bootstrap](https://github.com/twbs/bootstrap) - HTML, CSS, and JavaScript framework.
